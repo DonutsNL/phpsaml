@@ -86,12 +86,16 @@ class PluginPhpsamlPhpsaml
 					$password = bin2hex(random_bytes(20));
 					
 					$input = array(
-						"name" => SELF::$userdata['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'][0],
-						"realname" => SELF::$userdata['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname'][0],
-						"firstname" => SELF::$userdata['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/firstname'][0],
-						"_useremails" => array(SELF::$userdata['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'][0]),
-						"password" => $password,
-						"password2" => $password,
+						"name" 				 => SELF::$userdata['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'][0],
+						"realname" 			 => SELF::$userdata['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname'][0],
+						"firstname" 		 => SELF::$userdata['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/firstname'][0],
+						"_useremails" 		 => array(SELF::$userdata['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'][0]),
+						"password" 			 => $password,
+						"password2" 		 => $password,
+						"sync_field" 		 => "phpSAML",
+						"date_sync" 		 => $_SESSION['glpi_currenttime'],
+						"_ruleright_process" => true,
+						"_ldap_rules" 		 => true
 					);
 					
 					$newuser = new User();
@@ -412,8 +416,8 @@ class PluginPhpsamlPhpsaml
 		if(preg_match('/^none,.+/i', $value)){
 			$array = explode(',', $value);
 			$output = array();
-			// TODO: Current configuration input field allows multiple Items, logic below will select the first found then break. 
-			// Because of this the end result might not be what the user expects based on the config screen.
+			// Some combinations make no sense with exact matching. Current implementation will allow for
+			// problematic mixes of configurations. Maybe enforce valid combinations in the future.
 			foreach ($array as $item){
 				switch($item){
 					case 'PasswordProtectedTransport':
