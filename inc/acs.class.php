@@ -27,7 +27,6 @@
  *  @package  	phpsamlconfig
  *  @version	1.2.2
  *  @author    	Chris Gralike
- *  @author	   	Derrick Smith
  *  @copyright 	Copyright (c) 2018 by Derrick Smith
  *  @license   	MIT
  *  @see       	https://github.com/derricksmith/phpsaml/blob/master/LICENSE.txt
